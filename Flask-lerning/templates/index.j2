@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Library</title>
-    <!-- Подключение Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% extends 'base.j2' %}
 
-<div class="container mt-5">
-    <!-- Заголовок страницы -->
+{% block title %}
+    {% if title %}
     <h1 class="text-center">{{ title }}</h1>
-    <!-- Кнопки -->
-    <div class="d-flex justify-content-center my-4">
-        <a href="{{ link }}"><button type="button" class="btn btn-primary me-2">Добавить песню</button></a>
-        <button type="button" class="btn btn-success">Играть все</button>
-    </div>
+    {% else %}
+    <h1 class="text-center">Потеряли Заголовок</h1>
+    {% endif %}
+{% endblock title %}
 
-    <!-- Список песен -->
+{% block songs %}
     <ul class="list-group">
     <div class="justify-content-between align-items-center d-flex">
         <span>Название</span>
@@ -35,9 +25,8 @@
         </li>
         {% endfor %}
     </ul>
-</div>
+{% endblock %}
 
-<!-- Подключение Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+
+

@@ -14,12 +14,12 @@ songs = [
 
 @app.route('/')
 def main_page():
-    return render_template('index.j2', title='Моя медиатека', link='info', songs=songs)
+    return render_template('index.j2', link='found', songs=songs)
 
 
-@app.route('/info')
+@app.route('/found')
 def info_page():
-    return render_template('index.j2', title='АХАХАХАХАХА, НУ ЖМИ ЕЩЕ РАЗ', link='/')
+    return render_template('found.j2', title='Нашли заголвок', songs=songs)
 
 
 if __name__ == '__main__':
