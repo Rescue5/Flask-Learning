@@ -1,7 +1,7 @@
 all: format
 
 format:
-	autopep8 -i *.py */*.py
+	autopep8 -i *.py */*py
 
 git:
 	git add .

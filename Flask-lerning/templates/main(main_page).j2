@@ -1,0 +1,34 @@
+{% extends 'main.j2' %}
+
+{% block page_title %}Test Page{% endblock %}
+
+{% block style_file %}{{ url_for('static', filename='css/main(main_page).css') }}{% endblock %}
+
+{% block main_title %}Это тестовая страница Сайта{% endblock %}
+
+{% block content -%}
+    <ul class="outer">
+        {% for i in songs %}
+            <li class="song-item">
+                <div class="song-details">
+                    <strong>{{ i.name }}</strong>
+                    <ul class="song-meta">
+                        <li><a href="{{ i.artist_link }}">{{ i.artist }}</a></li>
+                        <li>{{ i.album }}</li>
+                        <li>{{ i.duration }}</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="song-item">
+                <div class="song-details">
+                    <strong>{{ i.name }}</strong>
+                    <ul class="song-meta">
+                        <li><a href="{{ i.artist_link }}">{{ i.artist }}</a></li>
+                        <li>{{ i.album }}</li>
+                        <li>{{ i.duration }}</li>
+                    </ul>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

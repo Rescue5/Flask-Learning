@@ -1,0 +1,16 @@
+{% extends 'main.j2' %}
+
+{% block page_title %} Регистрация {% endblock %}
+
+{% block style_file %} {{ url_for('static', filename='css/main(register).css') }}{% endblock %}
+
+{% block main_title %} Ошибка при регистрации, попробуйте еще раз {% endblock %}
+
+
+{% block content %}
+    <a href="/register">
+        <div>
+            Повторить попытку
+        </div>
+    </a>
+{% endblock %}

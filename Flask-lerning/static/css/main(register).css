@@ -1,0 +1,63 @@
+.title{
+    border: 1px solid black;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.content{
+    padding: 20px;
+    font-size: large;
+}
+
+.content form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 300px;
+    margin-left: 300px;
+}
+
+/* navbar.css */
+
+/* Стиль для навигационной панели */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    z-index: 1000; /* Делаем панель поверх другого контента */
+    padding: 10px 0;
+}
+
+/* Стилизация списка навигации */
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Отступ для контента ниже панели навигации */
+body {
+    margin-top: 50px; /* Зависит от высоты навигационной панели */
+}
