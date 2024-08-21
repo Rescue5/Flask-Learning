@@ -1,0 +1,28 @@
+{% extends 'main.j2' %}
+
+{% block page_title %} Обратная связь {% endblock %}
+
+{% block main_title %} Оставьте свой отзыв {% endblock %}
+
+{% block style_file %}{{ url_for('static', filename='css/main(register).css') }}{% endblock %}
+
+{% block content %}
+<form action="/callback" method="POST">
+    <label for="username">Введите имя пользователя:</label> <br>
+    <input type="text" id="username" name="username" required>
+
+    <label for="text">Пожалуйста, расскажите о ваших предложениях</label>
+    <textarea name="text" id="text">Введите текст</textarea>
+
+    <label for="score">Оцените наш сайт</label>
+    <select name="score" id="score">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <button type="submit" id="submit">Отправить</button>
+</form>
+{% endblock %}

@@ -1,7 +1,10 @@
-all: format
+all: format_main format_recursion
 
-format:
-	autopep8 -i *.py */*py
+format_main:
+	autopep8 -i *.py
+
+format_recursion:
+	autopep8 -i */*.py
 
 git:
 	git add .

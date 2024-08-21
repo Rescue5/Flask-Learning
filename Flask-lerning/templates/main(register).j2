@@ -7,6 +7,9 @@
 {% block style_file %} {{ url_for('static', filename='css/main(register).css') }}{% endblock %}
 
 {% block content %}
+    {% for ctg, msg in get_flashed_messages(True) %}
+    <div class="flash_message {{ ctg }}">{{ msg }}</div>
+    {% endfor %}
 <form action="/register" method="post">
     <label for="username">Имя пользователя:</label>
     <input type="text" id="username" name="username" required>
@@ -16,11 +19,6 @@
 
     <label for="confirm-password">Подтверждение пароля:</label>
     <input type="password" id="confirm-password" name="confirm_password" required>
-
-    <label>
-        <input type="checkbox" name="terms" required>
-        Я согласен с <a href="#terms">условиями использования</a>
-    </label>
 
     <button type="submit">Зарегистрироваться</button>
 </form>
