@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session
+from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort
 import time
 app = Flask(__name__)
 
@@ -44,13 +44,20 @@ def main_404(error):
     return render_template('404.html'), 404
 
 
+@app.route('/profile/<username>')
+def profile(username):
+    if 'userlogged' not in session or session['userlogged'] != username:
+        abort(401)
+    return f"Profile of user: {username}"
+
+
 @app.route('/callback', methods=['POST', 'GET'])
 def main_callback():
     if 'usercall' in session:
         return redirect(url_for('main_page'))
     elif request.method == 'POST' and request.form['username'] == 'admin':
         session['usercall'] = request.form['username']
-        return redirect(url_for('register'))
+        return redirect(url_for('main_page'))
     return render_template('main(callback).j2')
 
 
