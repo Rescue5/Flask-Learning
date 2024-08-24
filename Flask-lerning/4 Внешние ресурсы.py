@@ -1,5 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort
-import time
+import sqlite3
+import os
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'askdafnpailfinealfjkafj;sdjf;afjaefjaiejjaskldasd'
@@ -53,11 +55,6 @@ def profile(username):
 
 @app.route('/callback', methods=['POST', 'GET'])
 def main_callback():
-    if 'usercall' in session:
-        return redirect(url_for('main_page'))
-    elif request.method == 'POST' and request.form['username'] == 'admin':
-        session['usercall'] = request.form['username']
-        return redirect(url_for('main_page'))
     return render_template('main(callback).j2')
 
 

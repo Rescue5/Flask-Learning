@@ -1,0 +1,19 @@
+html {
+  background-color: grey;
+  font-family: Arial, sans-serif;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #333;
+  border-radius: 14px;
+  flex-direction: row;
+}
+.content .form {
+  text-align: center;
+}
+
+/*# sourceMappingURL=main(callback).css.map */

@@ -4,10 +4,10 @@
 
 {% block main_title %} Оставьте свой отзыв {% endblock %}
 
-{% block style_file %}{{ url_for('static', filename='css/main(register).css') }}{% endblock %}
+{% block style_file %}{{ url_for('static', filename='css/main(callback).css') }}{% endblock %}
 
 {% block content %}
-<form action="/callback" method="POST">
+<form action="/callback" method="POST" class="form">
     <label for="username">Введите имя пользователя:</label> <br>
     <input type="text" id="username" name="username" required>
 
