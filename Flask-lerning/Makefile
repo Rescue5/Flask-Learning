@@ -1,3 +1,5 @@
+.SILENT:
+
 all: format_main format_recursion
 
 format_main:
