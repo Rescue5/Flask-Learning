@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort
+from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort, g
 import sqlite3
 import os
 
@@ -24,6 +24,24 @@ def create_db():
         db.cursor().executescript(f.read())
     db.commit()
     db.close()
+
+
+def get_db():
+    if not hasattr(g, 'link_db'):
+        g.link_db = connect_db()
+    return g.link_db
+
+
+@app.teardown_appcontext
+def close_db(error):
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
+
+
+@app.route('/')
+def main_page():
+    db = get_db()
+    return render_template('main(main_page).j2')
 
 
 if __name__ == '__main__':
