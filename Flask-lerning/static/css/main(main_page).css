@@ -63,7 +63,6 @@
     text-decoration: underline; /* Подчеркивание при наведении */
 }
 /* navbar.css */
-
 /* Стиль для навигационной панели */
 .navbar {
     position: fixed;
@@ -102,4 +101,14 @@
 /* Отступ для контента ниже панели навигации */
 body {
     margin-top: 50px; /* Зависит от высоты навигационной панели */
+}
+
+.add_song_bytton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.add_song_bytton div{
+    background-color: red;
 }

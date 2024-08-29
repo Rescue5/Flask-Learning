@@ -1,0 +1,26 @@
+{% extends 'main.j2' %}
+
+{% block page_title %}Добавьте свою песню{% endblock %}
+
+{% block style_file %}{{ url_for('static', filename='css/main(add_song).css') }}{% endblock %}
+
+{% block main_title %}Добавь свою песню!{% endblock %}
+
+{%- block content -%}
+    {% for i in get_flashed_messages() %}
+    <div>{{ i }}</div>
+    {% endfor %}
+<div class="form_add_song">
+    <form action="{{ url_for('add_song') }}" method="post" class="">
+        <label for="name">Введите название песни</label>
+        <input type="text" name = "name" id="name" required>
+        <label for="artist">Введите автора</label>
+        <input type="text" name="artist" id="artist" required>
+        <label for="album">Введите название альбома</label>
+        <input type="text" name="album" id="album" required>
+        <label for="duration">Введите длительность</label>
+        <input type="text" name="duration" id="duration" required>
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+{%- endblock -%}

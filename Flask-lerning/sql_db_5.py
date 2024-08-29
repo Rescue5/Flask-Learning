@@ -6,6 +6,39 @@ DEBUG = True
 DATABASE = '/tmp/test.db'
 SECRET_KEY = 'fajnpavvjsdgmvsa;cerfa/sbv/rsgtbqo3k4gjiewovwslj'
 
+
+class FDataBase:
+    def __init__(self, conn):
+        self.__conn = conn
+        self.__cursor = self.__conn.cursor()
+
+    def getsongs(self):
+        sql = """SELECT * FROM songs"""
+        try:
+            self.__cursor.execute(sql)
+            res = self.__cursor.fetchall()
+            if res:
+                return res
+        except Exception as e:
+            print(f"Ошибка чтение из БД: {e}")
+        return []
+
+    def addsong(self, name, artist, album, duration):
+        check_sql = """SELECT COUNT(*) as count FROM songs WHERE name=?"""
+        sql = """INSERT INTO songs (name, artist, album, duration) VALUES (?, ?, ?, ?)"""
+        try:
+            self.__cursor.execute(check_sql, (name,))
+            res = self.__cursor.fetchone()
+            if res['count'] > 0:
+                return False
+            self.__cursor.execute(sql, (name, artist, album, duration))
+            self.__conn.commit()
+            return True
+        except Exception as e:
+            print(f"Ошибка записи в базу данных: {e}")
+            return False
+
+
 app = Flask(__name__)
 app.config.from_object(__name__)
 
@@ -40,8 +73,25 @@ def close_db(error):
 
 @app.route('/')
 def main_page():
-    db = get_db()
-    return render_template('main(main_page).j2')
+    db = FDataBase(get_db())
+    print(db.getsongs())
+    return render_template('main(main_page).j2', songs=db.getsongs())
+
+
+@app.route('/addsong', methods=['GET', 'POST'])
+def add_song():
+    if request.method == 'POST':
+        db = FDataBase(get_db())
+        name = request.form['name']
+        artist = request.form['artist']
+        album = request.form['album']
+        duration = request.form['duration']
+        if db.addsong(name, artist, album, duration):
+            flash('Song added successfully!', category='succes')
+        else:
+            flash('Something went wrong!', category='fail')
+
+    return render_template('main(add_song).j2')
 
 
 if __name__ == '__main__':
