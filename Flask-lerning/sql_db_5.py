@@ -82,12 +82,12 @@ def close_db(error):
         g.link_db.close()
 
 
-@app.route('/login', methods=['GET', 'POST']) 
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     log = ""
     if request.cookies.get('logged'):
-       log = request.cookies.get('logged')
-        
+        log = request.cookies.get('logged')
+
     res = make_response(f"<h1>Форма авторизации</h1><p>logged:{log}</p>")
     res.set_cookie('logged', 'yes')
     return res
