@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STARSET: The Cinematic Rock Band</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 2em;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>STARSET: The Cinematic Rock Band</h1>
+            <img src="{{ url_for('static', filename='img/' ~ slug ~ '/Starset.png') }}" alt="{{ artist_name }}">
+            <p><strong>Author:</strong> Music Enthusiast</p>
+            <p><strong>Date:</strong> September 1, 2024</p>
+        </header>
+
+        <section>
+            <h2>Introduction</h2>
+            <p>STARSET is an American rock band known for their unique blend of cinematic soundscapes and hard rock elements. Formed in 2013 by Dustin Bates, the band has quickly gained a massive following due to their thematic albums and immersive live performances.</p>
+        </section>
+
+        <section>
+            <h2>The Origin</h2>
+            <p>STARSET was conceived as more than just a band; it is a multi-media experience that combines music, visual storytelling, and a fictional narrative. The band's debut album, <em>Transmissions</em>, was released in 2014 and introduced fans to a dystopian universe where technology and humanity are at odds.</p>
+        </section>
+
+        <section>
+            <h2>Discography</h2>
+            <p>As of 2024, STARSET has released four full-length studio albums:</p>
+            <ul>
+                <li><strong>Transmissions</strong> (2014)</li>
+                <li><strong>Vessels</strong> (2017)</li>
+                <li><strong>Divisions</strong> (2019)</li>
+                <li><strong>Horizons</strong> (2021)</li>
+            </ul>
+            <p>Each album tells a part of the overarching story, with intricate lyrics and sound design that transport listeners into the STARSET universe.</p>
+        </section>
+
+        <section>
+            <h2>Live Performances</h2>
+            <p>STARSET's live shows are nothing short of spectacular. The band is known for their use of advanced technology, including holograms, LED suits, and immersive visuals that complement their music. These performances are designed to give the audience an experience akin to watching a sci-fi film unfold live on stage.</p>
+        </section>
+
+        <section>
+            <h2>Conclusion</h2>
+            <p>STARSET continues to push the boundaries of what a rock band can be. With their cinematic approach to music and storytelling, they have carved out a unique niche in the modern music landscape. Whether you're a fan of rock, science fiction, or immersive experiences, STARSET is a band that offers something truly special.</p>
+        </section>
+
+        <footer>
+            <p>For more information about STARSET, visit their <a href="https://starsetonline.com" target="_blank">official website</a>.</p>
+        </footer>
+    </article>
+</body>
+</html>

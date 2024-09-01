@@ -1,10 +1,11 @@
-from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort, g
+from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort, g, \
+    make_response, request
 import sqlite3
 import os
 
 DEBUG = True
 DATABASE = '/tmp/test.db'
-SECRET_KEY = 'fajnpavvjsdgmvsa;cerfa/sbv/rsgtbqo3k4gjiewovwslj'
+SECRET_KEY = '30a469afa9bd791e087d03e29a68e57cbc6e1c9a'
 
 
 class FDataBase:
@@ -37,6 +38,16 @@ class FDataBase:
         except Exception as e:
             print(f"Ошибка записи в базу данных: {e}")
             return False
+
+    def get_link_by_slug(self, slug):
+        sql = """SELECT artist_url FROM songs WHERE artist=?"""
+        try:
+            self.__cursor.execute(sql, (slug,))
+            res = self.__cursor.fetchone()
+            if res:
+                return res
+        except Exception as e:
+            print(e)
 
 
 app = Flask(__name__)
@@ -71,10 +82,20 @@ def close_db(error):
         g.link_db.close()
 
 
+@app.route('/login', methods=['GET', 'POST']) 
+def login():
+    log = ""
+    if request.cookies.get('logged'):
+       log = request.cookies.get('logged')
+        
+    res = make_response(f"<h1>Форма авторизации</h1><p>logged:{log}</p>")
+    res.set_cookie('logged', 'yes')
+    return res
+
+
 @app.route('/')
 def main_page():
     db = FDataBase(get_db())
-    print(db.getsongs())
     return render_template('main(main_page).j2', songs=db.getsongs())
 
 
@@ -92,6 +113,21 @@ def add_song():
             flash('Something went wrong!', category='fail')
 
     return render_template('main(add_song).j2')
+
+
+@app.route('/<slug>')
+def show_artist(slug):
+    return render_template(f"{slug}.html", slug=slug)
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404, {"Content-Type": "text/plain"}
+
+
+@app.route('/transfer')
+def transfer_url():
+    return redirect(url_for('main_page'), 301)
 
 
 if __name__ == '__main__':
