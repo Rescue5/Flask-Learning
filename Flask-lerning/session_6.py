@@ -1,5 +1,6 @@
-from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort, g, \
-    make_response, request
+from flask import (Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort,
+                   g, make_response, request)
+from flask_login import LoginManager
 import sqlite3
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,6 +8,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 DEBUG = True
 DATABASE = '/tmp/test.db'
 SECRET_KEY = '30a469afa9bd791e087d03e29a68e57cbc6e1c9a'
+
+
+class UserLogin:
+
+    def is_aunteficated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymus(self):
+        return False
+
+    def get_id(self):
+        return str(self.__user['id'])
 
 
 class FDataBase:
@@ -74,6 +90,8 @@ class FDataBase:
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+
+login_manager = LoginManager(app)
 
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'test.db')))
 
@@ -161,12 +179,15 @@ def add_song():
 
 @app.route('/<slug>')
 def show_artist(slug):
-    return render_template(f"{slug}.html", slug=slug)
+    try:
+        return render_template(f"{slug}.html", slug=slug)
+    except Exception as e:
+        abort(404)
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html'), 404, {"Content-Type": "text/plain"}
+    return render_template('404.html'), 404
 
 
 @app.route('/transfer')
