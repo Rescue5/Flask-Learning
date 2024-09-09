@@ -1,6 +1,6 @@
 from flask import (Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, session, abort,
                    g, make_response, request)
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 import sqlite3
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -11,8 +11,18 @@ SECRET_KEY = '30a469afa9bd791e087d03e29a68e57cbc6e1c9a'
 
 
 class UserLogin:
+    def __init__(self):
+        self.__user = None
 
-    def is_aunteficated(self):
+    def fromDB(self, user_id, db):
+        self.__user = db.get_user(user_id)
+        return self
+
+    def create(self, user):
+        self.__user = user
+        return self
+
+    def is_authenticated(self):
         return True
 
     def is_active(self):
@@ -22,7 +32,7 @@ class UserLogin:
         return False
 
     def get_id(self):
-        return str(self.__user['id'])
+        return str(self.__user['user_id_pk'])
 
 
 class FDataBase:
@@ -66,6 +76,19 @@ class FDataBase:
         except Exception as e:
             print(e)
 
+    def get_user_by_login(self, user_login):
+        sql = """SELECT * FROM users WHERE login = ?"""
+        try:
+            self.__cursor.execute(sql, (user_login,))
+            res = self.__cursor.fetchone()
+            if not res:
+                print("Пользователь не найден")
+                return False
+            return res
+        except Exception as e:
+            print("Ошибка чтения с БД")
+            print(e)
+
     def check_unic_login(self, login):
         sql = """SELECT COUNT(*) as count FROM users WHERE login=?"""
         try:
@@ -87,6 +110,19 @@ class FDataBase:
         except Exception as e:
             print(e)
 
+    def get_user(self, user_id_pk):
+        sql = f"""SELECT * FROM users WHERE user_id_pk = {user_id_pk} LIMIT 1"""
+        try:
+            self.__cursor.execute(sql)
+            res = self.__cursor.fetchone()
+            if not res:
+                print("Пользователь не найден")
+                return False
+            return res
+        except Exception as e:
+            print(e)
+        return False
+
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -94,6 +130,12 @@ app.config.from_object(__name__)
 login_manager = LoginManager(app)
 
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'test.db')))
+
+
+@login_manager.user_loader
+def load_user(user_id_pk):
+    print("load_user")
+    return UserLogin().fromDB(user_id_pk, dbase)
 
 
 def connect_db():
@@ -135,7 +177,18 @@ def close_db(error):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template("main(main_login).html")
+    if current_user.is_authenticated:
+        return redirect(url_for('main_page'))
+    if request.method == 'POST':
+        user_login = request.form['login']
+        user = dbase.get_user_by_login(user_login)
+        if user and check_password_hash(user['password'], request.form['password']):
+            userlogin = UserLogin().create(user)
+            login_user(userlogin)
+            return redirect(url_for('main_page'))
+        else:
+            flash('Неверная пара логин/пароль')
+    return render_template('main(main_login).html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -178,6 +231,7 @@ def add_song():
 
 
 @app.route('/<slug>')
+@login_required
 def show_artist(slug):
     try:
         return render_template(f"{slug}.html", slug=slug)
